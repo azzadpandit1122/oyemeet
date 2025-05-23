@@ -4,6 +4,152 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>OyeMeet – India's Modern Dating App</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
+      color: white;
+    }
+
+    header {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      color: #ff4081;
+    }
+
+    header p {
+      font-size: 1.2rem;
+    }
+
+    #earth-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .cta {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+    }
+
+    .cta h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .cta button {
+      background: #ff4081;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .cta h3 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>OyeMeet ❤️</h1>
+  <p>Connecting India’s hearts with culture & tech</p>
+</header>
+
+<div id="earth-container"></div>
+
+<section class="cta">
+  <h3>🌍 Launching Soon – Be Among the First Million!</h3>
+  <button>Notify Me</button>
+</section>
+
+<!-- Load libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+
+<script>
+  // Setup scene
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    75, window.innerWidth / window.innerHeight, 0.1, 1000
+  );
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.getElementById("earth-container").appendChild(renderer.domElement);
+
+  // Create Earth
+  const geometry = new THREE.SphereGeometry(5, 64, 64);
+  const texture = new THREE.TextureLoader().load(
+    "https://raw.githubusercontent.com/ajaymarathe/earth-globe-threejs/master/images/2_no_clouds_4k.jpg"
+  );
+  const material = new THREE.MeshStandardMaterial({ map: texture });
+  const earth = new THREE.Mesh(geometry, material);
+  scene.add(earth);
+
+  // Lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(ambientLight);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(5, 3, 5);
+  scene.add(directionalLight);
+
+  // Camera position
+  camera.position.z = 15;
+
+  // Animate
+  function animate() {
+    requestAnimationFrame(animate);
+    earth.rotation.y += 0.0015;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // GSAP for header and CTA
+  gsap.from("header", { duration: 1.2, opacity: 0, y: -50 });
+  gsap.from(".cta", { duration: 1.2, opacity: 0, y: 50, delay: 1 });
+
+  // Responsive resizing
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OyeMeet – India's Modern Dating App</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
@@ -164,3 +310,4 @@
 
 </body>
 </html>
+ -->
