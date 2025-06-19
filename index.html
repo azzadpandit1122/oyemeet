@@ -13,54 +13,61 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%; /* Ensure html and body take full viewport height */
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #A9262C; /* Deep red color from the image */
             display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            overflow: hidden; /* Prevent scrollbars from grid */
-            position: relative; /* Needed for absolutely positioned floating text */
+            flex-direction: column; /* Arrange content vertically */
+            overflow-y: auto; /* Allow vertical scrollbars when content overflows */
+            overflow-x: hidden; /* Prevent horizontal scrollbars */
+            position: relative;
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            grid-auto-rows: minmax(100px, 1fr);
-            gap: 8px; /* Gap between squares */
-            width: 90%;
-            max-width: 1200px; /* Limit overall width */
-            padding: 20px;
+            /* Mobile-first: Default for small screens */
+            grid-template-columns: repeat(auto-fit, minmax(55px, 1fr)); /* Slightly smaller default for better fit */
+            grid-auto-rows: minmax(55px, 1fr); /* Ensure squares are truly square */
+            gap: 6px; /* Slightly reduced gap for more compact look */
+            width: 95%; /* Increased width percentage for better mobile screen utilization */
+            max-width: 1400px;
+            padding: 15px; /* Reduced padding for mobile screens */
             box-sizing: border-box;
+            flex-grow: 1;
+            align-self: center; /* Center the grid container itself horizontally within the flex body */
+            justify-content: center; /* Center items within grid on smaller screens */
         }
 
         .square {
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white for squares */
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 3rem; /* Large emoji size */
-            color: white; /* Emoji color */
-            transition: transform 0.3s ease-out, background-color 0.3s ease-out; /* Smooth transition for hover and click */
+            font-size: 2rem; /* Mobile-first default emoji size */
+            color: white;
+            transition: transform 0.3s ease-out, background-color 0.3s ease-out;
             position: relative;
             overflow: hidden;
-            aspect-ratio: 1 / 1; /* Ensure squares are square */
-            cursor: pointer; /* Indicate clickable */
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
         }
 
         .square:hover {
-            transform: translateY(-5px); /* Slight lift on hover */
+            transform: translateY(-5px);
         }
 
-        /* Styles for when a square is clicked */
         .square.clicked {
-            transform: scale(1.3); /* Significantly increase size on click */
-            background-color: rgba(255, 255, 255, 0.3); /* Slightly brighter on click */
-            z-index: 10; /* Bring to front */
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); /* More prominent glow */
+            transform: scale(1.3);
+            background-color: rgba(255, 255, 255, 0.3);
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
         }
 
         .emoji {
@@ -68,13 +75,13 @@
             animation-name: bounce;
             animation-duration: 1s;
             animation-timing-function: ease-in-out;
-            animation-iteration-count: 1; /* Only animate once per trigger */
-            opacity: 0; /* Hidden by default */
+            animation-iteration-count: 1;
+            opacity: 0;
             transform: scale(0);
         }
 
         .emoji.active {
-            opacity: 1; /* Visible when active */
+            opacity: 1;
             transform: scale(1);
         }
 
@@ -85,13 +92,12 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Temporary emoji for click interaction */
         .temp-emoji {
-            font-size: 3rem; /* Larger size for single emoji */
-            color: yellow; /* A contrasting color for happy emojis */
-            opacity: 0; /* Hidden by default for sequential reveal */
+            font-size: 2.5rem; /* Mobile-first default temp emoji size */
+            color: yellow;
+            opacity: 0;
             transform: scale(0);
-            transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Smooth reveal for each emoji */
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
         }
 
         .temp-emoji.show {
@@ -99,77 +105,179 @@
             transform: scale(1);
         }
 
-
-        /* Floating text style (now positioned at the bottom) */
         .floating-text {
-            position: absolute;
-            bottom: 15px; /* Adjusted position slightly higher */
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.3rem; /* Slightly increased font size for better readability on white background */
-            font-weight: 600; /* Semi-bold for better emphasis */
-            color: #A9262C; /* Dark red text color to contrast with white background */
-            text-align: center;
-            z-index: 100; /* Ensure it's above everything else */
-            background-color: #FFFFFF; /* White background */
-            padding: 8px 20px; /* Padding around the text */
-            border-radius: 20px; /* Rounded corners */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for premium look */
-            white-space: nowrap; /* Prevent text from wrapping */
+            /* Keep position relative as it's a flex item now */
+            position: relative;
+            margin-top: 15px; /* Reduced margin-top for mobile */
+            margin-bottom: 10px; /* Reduced margin-bottom for mobile */
+            font-size: 1rem; /* Mobile-first default font size */
+            font-weight: 600;
+            color: #A9262C;
+            text-align: center; /* Centers the text inside the div */
+            z-index: 100;
+            background-color: #FFFFFF;
+            padding: 6px 15px; /* Reduced padding for mobile */
+            border-radius: 15px; /* Reduced border-radius for mobile */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Slightly softer shadow for mobile */
+            white-space: nowrap;
+            max-width: 90%; /* Limits the width of the element */
+            /* New rule for horizontal centering */
+            margin-left: auto;
+            margin-right: auto;
+            /* Or simply: margin: 15px auto 10px auto; (top, right, bottom, left) */
         }
 
-        /* Responsive adjustments for floating text */
-        @media (max-width: 768px) {
-            .floating-text {
-                font-size: 1.1rem;
-                bottom: 10px;
-                padding: 6px 15px;
-                border-radius: 15px;
-            }
+        /* --- Media Queries for various screen sizes --- */
+
+        /* Small mobile devices (e.g., iPhone SE, older Androids) */
+        @media (max-width: 375px) {
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-                grid-auto-rows: minmax(80px, 1fr);
-                gap: 6px; /* Slightly reduced gap for smaller screens */
-                padding: 15px; /* Slightly reduced padding for smaller screens */
+                grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+                grid-auto-rows: minmax(50px, 1fr);
+                gap: 4px;
+                padding: 10px;
             }
             .square {
-                font-size: 2rem;
+                font-size: 1.7rem;
             }
             .temp-emoji {
-                font-size: 2.5rem; /* Adjust for mobile */
+                font-size: 2.2rem;
             }
-        }
-
-        @media (max-width: 480px) {
             .floating-text {
-                font-size: 0.9rem;
-                bottom: 8px;
+                font-size: 0.85rem;
                 padding: 5px 12px;
                 border-radius: 12px;
             }
+        }
+
+        /* Medium mobile devices (e.g., iPhone 12/13/14, common Androids) */
+        @media (min-width: 376px) and (max-width: 767px) {
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Further reduced min size */
-                grid-auto-rows: minmax(50px, 1fr); /* Further reduced min size */
-                gap: 4px; /* Reduced gap even more */
-                padding: 10px; /* Reduced padding for very small screens */
+                grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+                grid-auto-rows: minmax(65px, 1fr);
+                gap: 5px;
+                padding: 15px;
             }
             .square {
-                font-size: 1.5rem;
+                font-size: 2.2rem;
             }
             .temp-emoji {
-                font-size: 2rem; /* Adjust for mobile */
+                font-size: 2.8rem;
+            }
+            .floating-text {
+                font-size: 0.95rem;
+                padding: 6px 15px;
+                border-radius: 15px;
             }
         }
-        
+
+        /* Tablets and larger mobile devices (e.g., iPads, larger Android tablets) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                grid-auto-rows: minmax(80px, 1fr);
+                gap: 8px;
+                padding: 20px;
+            }
+            .square {
+                font-size: 2.8rem;
+            }
+            .temp-emoji {
+                font-size: 3.5rem;
+            }
+            .floating-text {
+                font-size: 1.1rem;
+                padding: 8px 20px;
+                border-radius: 20px;
+            }
+        }
+
+        /* Desktop and larger screens (XL, XXL, VXXL) */
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Standard desktop size */
+                grid-auto-rows: minmax(100px, 1fr);
+                gap: 10px;
+                padding: 25px;
+            }
+            .square {
+                font-size: 3rem;
+            }
+            .temp-emoji {
+                font-size: 3.5rem;
+            }
+            .floating-text {
+                font-size: 1.3rem;
+                padding: 10px 25px;
+                border-radius: 25px;
+                margin-top: 20px;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (min-width: 1200px) { /* XL */
+            .grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                grid-auto-rows: minmax(120px, 1fr);
+                gap: 12px;
+                padding: 30px;
+            }
+            .square {
+                font-size: 4rem;
+            }
+            .temp-emoji {
+                font-size: 4.5rem;
+            }
+            .floating-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (min-width: 1600px) { /* XXL */
+            .grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                grid-auto-rows: minmax(140px, 1fr);
+                gap: 15px;
+                max-width: 1600px;
+                padding: 40px;
+            }
+            .square {
+                font-size: 5rem;
+            }
+            .temp-emoji {
+                font-size: 5.5rem;
+            }
+            .floating-text {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (min-width: 1920px) { /* VXXL or 1080p desktop */
+            .grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                grid-auto-rows: minmax(160px, 1fr);
+                gap: 18px;
+                max-width: 1800px;
+                padding: 50px;
+            }
+            .square {
+                font-size: 6rem;
+            }
+            .temp-emoji {
+                font-size: 6.5rem;
+            }
+            .floating-text {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-red-700">
-    <div class="floating-text">
-        Welcome to OYE Meet
-    </div>
-
     <div class="grid-container" id="emojiGrid">
-        <!-- Squares will be generated here by JavaScript -->
+        </div>
+
+    <div class="floating-text">
+        Target: 1 Million Users, 1 Launch
     </div>
 
     <script>
@@ -184,7 +292,7 @@
 
         // Configuration for simultaneous background animations
         const numSimultaneousAnimations = 5; // Number of background emojis to animate at the same time
-        const animationInterval = 700;     // Interval (in ms) to trigger new group of background animations
+        const animationInterval = 700;       // Interval (in ms) to trigger new group of background animations
 
         // Function to get a random romantic emoji for background
         function getRandomRomanticEmoji() {
@@ -305,12 +413,9 @@
             }
         }
 
-        // Start the animation loop for multiple background emojis
         setInterval(triggerMultipleAnimations, animationInterval);
 
-        // Optionally, trigger an initial burst of animations immediately on load
         setTimeout(triggerMultipleAnimations, 100);
     </script>
 </body>
-
 </html>
