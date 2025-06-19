@@ -26,7 +26,7 @@
             background-color: #A9262C; /* Deep red color from the image */
             display: flex;
             flex-direction: column; /* Arrange content vertically */
-            overflow-y: scroll; /* Keep scroll functionality */
+            overflow-y: auto; /* Keep scroll functionality */
             overflow-x: hidden; /* Prevent horizontal scrollbars */
             position: relative;
 
@@ -52,8 +52,8 @@
 
         .grid-container {
             display: grid;
-            /* Mobile-first: Default for small screens */
-            grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+            /* Default for extra small screens (e.g., very old phones or specific small viewports) */
+            grid-template-columns: repeat(4, 1fr); /* Default to 4 emojis */
             grid-auto-rows: minmax(55px, 1fr);
             gap: 6px;
             width: 95%;
@@ -76,7 +76,7 @@
             transition: transform 0.3s ease-out, background-color 0.3s ease-out;
             position: relative;
             overflow: hidden;
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 1 / 1; /* Ensures height always matches width */
             cursor: pointer;
         }
 
@@ -139,24 +139,23 @@
             padding: 6px 15px;
             border-radius: 15px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-            /* Important for typing effect: allows text to wrap if it gets too long, but we're controlling length */
-            white-space: normal; /* Changed from nowrap to normal to allow wrapping if text gets too long, though we control it with fixed text */
+            white-space: normal;
             max-width: 90%;
             margin-left: auto;
             margin-right: auto;
-            /* Added for typing effect - ensures consistent width before and after text appears */
-            min-height: 1.5em; /* Adjust based on your font-size to prevent layout shift */
-            display: flex; /* Use flexbox to easily center content horizontally within the div */
-            justify-content: center; /* Center content horizontally */
-            align-items: center; /* Center content vertically */
+            min-height: 1.5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.3; /* Added/adjusted for better vertical spacing if text wraps */
         }
 
         /* --- Media Queries for various screen sizes --- */
 
-        /* Small mobile devices (e.g., iPhone SE, older Androids) */
+        /* Extra small mobile devices (e.g., iPhone SE (1st gen) and general phones <= 375px) */
         @media (max-width: 375px) {
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+                grid-template-columns: repeat(4, 1fr); /* 4 emojis */
                 grid-auto-rows: minmax(50px, 1fr);
                 gap: 4px;
                 padding: 10px;
@@ -168,16 +167,17 @@
                 font-size: 2.2rem;
             }
             .floating-text {
-                font-size: 0.85rem;
-                padding: 5px 12px;
+                font-size: 0.85rem; /* Slightly smaller font for very narrow screens */
+                padding: 5px 10px; /* Slightly less padding to give more text space */
                 border-radius: 12px;
             }
         }
 
-        /* Medium mobile devices (e.g., iPhone 12/13/14, common Androids) */
+        /* Small to Medium mobile devices (e.g., iPhone SE (2nd/3rd gen), iPhone 6/7/8, iPhone X/XS, iPhone 12/13/14 mini, common Androids) */
+        /* These typically have viewports from 376px up to around 414px (iPhone 6/7/8 Plus, XR) or even 767px */
         @media (min-width: 376px) and (max-width: 767px) {
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+                grid-template-columns: repeat(5, 1fr); /* 5 emojis */
                 grid-auto-rows: minmax(65px, 1fr);
                 gap: 5px;
                 padding: 15px;
@@ -198,7 +198,7 @@
         /* Tablets and larger mobile devices (e.g., iPads, larger Android tablets) */
         @media (min-width: 768px) and (max-width: 1023px) {
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Keeping auto-fit for tablets for flexibility */
                 grid-auto-rows: minmax(80px, 1fr);
                 gap: 8px;
                 padding: 20px;
@@ -219,7 +219,7 @@
         /* Desktop and larger screens (XL, XXL, VXXL) */
         @media (min-width: 1024px) {
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                grid-template-columns: repeat(6, 1fr); /* 6 emojis */
                 grid-auto-rows: minmax(100px, 1fr);
                 gap: 10px;
                 padding: 25px;
@@ -241,7 +241,7 @@
 
         @media (min-width: 1200px) { /* XL */
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                grid-template-columns: repeat(6, 1fr); /* 6 emojis */
                 grid-auto-rows: minmax(120px, 1fr);
                 gap: 12px;
                 padding: 30px;
@@ -259,7 +259,7 @@
 
         @media (min-width: 1600px) { /* XXL */
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                grid-template-columns: repeat(6, 1fr); /* 6 emojis */
                 grid-auto-rows: minmax(140px, 1fr);
                 gap: 15px;
                 max-width: 1600px;
@@ -278,7 +278,7 @@
 
         @media (min-width: 1920px) { /* VXXL or 1080p desktop */
             .grid-container {
-                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                grid-template-columns: repeat(6, 1fr); /* 6 emojis */
                 grid-auto-rows: minmax(160px, 1fr);
                 gap: 18px;
                 max-width: 1800px;
@@ -298,10 +298,10 @@
 </head>
 <body class="bg-red-700">
     <div class="grid-container" id="emojiGrid">
-        </div>
+    </div>
 
     <div class="floating-text" id="typewriterText">
-        </div>
+    </div>
 
     <script>
         // Emojis for the background animation (romantic)
@@ -445,9 +445,14 @@
 
         // --- Typewriter Effect Script ---
         const typewriterTextElement = document.getElementById('typewriterText');
-        const phrases = [
-            "Intelligent 💖 Connections 🥰 For ✨ A Modern 🫂 India 🇮🇳"
-        ];
+        // Define phrases for different screen sizes
+        const screenPhrases = {
+            small: "Connect, Engage, Love 🥰 India 🇮🇳", // For <= 375px
+            medium: "Intelligent Connections for Modern India 🇮🇳", // For 376px to 767px
+            large: "Intelligent 💖 Connections 🥰 For ✨ A Modern 🫂 India 🇮🇳" // For > 767px
+        };
+
+        let currentPhrase = "";
         let phraseIndex = 0;
         let charIndex = 0;
         const typingSpeed = 70; // Time in ms per character
@@ -455,9 +460,33 @@
         const newPhraseDelay = 1500; // Delay before starting to type a new phrase (after erasing or initial type)
         const pauseAtEnd = 1000; // Pause before starting to erase
 
+        // Function to get the appropriate phrase based on screen width
+        function getPhraseForScreenWidth() {
+            const width = window.innerWidth;
+            if (width <= 375) {
+                return screenPhrases.small;
+            } else if (width <= 767) {
+                return screenPhrases.medium;
+            } else {
+                return screenPhrases.large;
+            }
+        }
+
         function type() {
-            if (charIndex < phrases[phraseIndex].length) {
-                typewriterTextElement.textContent += phrases[phraseIndex].charAt(charIndex);
+            // Check if the current phrase needs to be updated based on screen size
+            const newPhraseBasedOnScreen = getPhraseForScreenWidth();
+            if (newPhraseBasedOnScreen !== currentPhrase) {
+                // If screen size changed and phrase is different, reset typing
+                currentPhrase = newPhraseBasedOnScreen;
+                charIndex = 0;
+                typewriterTextElement.textContent = ""; // Clear immediately
+                // Re-start typing for the new phrase
+                setTimeout(type, typingSpeed); // Don't delay too much for immediate adjustment
+                return; // Exit current type cycle to prevent issues
+            }
+
+            if (charIndex < currentPhrase.length) {
+                typewriterTextElement.textContent += currentPhrase.charAt(charIndex);
                 charIndex++;
                 setTimeout(type, typingSpeed);
             } else {
@@ -468,20 +497,37 @@
 
         function erase() {
             if (charIndex > 0) {
-                typewriterTextElement.textContent = phrases[phraseIndex].substring(0, charIndex - 1);
+                typewriterTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
                 charIndex--;
                 setTimeout(erase, erasingSpeed);
             } else {
-                // Move to the next phrase, loop back to the first if at the end
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                // Delay before typing the new phrase
-                setTimeout(type, newPhraseDelay);
+                // Before starting the new phrase, check if the screen size changed
+                currentPhrase = getPhraseForScreenWidth(); // Get the potentially new phrase
+                charIndex = 0; // Reset charIndex for the new phrase
+                setTimeout(type, newPhraseDelay); // Delay before typing the new phrase
             }
         }
 
+        // Add a resize listener to dynamically change phrases
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const newPhraseBasedOnScreen = getPhraseForScreenWidth();
+                if (newPhraseBasedOnScreen !== currentPhrase) {
+                    // Stop current animation, clear text, and restart with new phrase
+                    currentPhrase = newPhraseBasedOnScreen;
+                    charIndex = 0;
+                    typewriterTextElement.textContent = "";
+                    type(); // Immediately start typing the new phrase
+                }
+            }, 200); // Debounce resize events
+        });
+
+
         // Start the typing effect when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            // Give the element a moment to render before starting the animation, or start directly
+            currentPhrase = getPhraseForScreenWidth(); // Set initial phrase
             type();
         });
         // --- End Typewriter Effect Script ---
